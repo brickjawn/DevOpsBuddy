@@ -35,7 +35,10 @@ jobs:
         with:
           python-version: "3.11"
       - name: Install DevOps Buddy
-        run: pip install devops-buddy
+        run: |
+          git clone https://github.com/brickjawn/DevOpsBuddy.git
+          cd DevOpsBuddy
+          pip install -e .
       - name: Run scan
         run: devops-buddy scan . --output results.json
       - name: Upload results

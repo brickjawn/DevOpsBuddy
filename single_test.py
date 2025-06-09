@@ -27,7 +27,7 @@ def test_github_workflow_generation():
         'jobs:',
         'runs-on: ubuntu-latest',
         'actions/checkout@v4',
-        'pip install devops-buddy',
+        'git clone https://github.com/brickjawn/DevOpsBuddy.git',
         'devops-buddy scan'
     ]
     
@@ -93,7 +93,10 @@ jobs:
           python-version: "3.11"
       
       - name: Install DevOps Buddy
-        run: pip install devops-buddy
+        run: |
+          git clone https://github.com/brickjawn/DevOpsBuddy.git
+          cd DevOpsBuddy
+          pip install -e .
       
       - name: Run security scan
         run: {scan_command}

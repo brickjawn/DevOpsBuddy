@@ -37,7 +37,7 @@ class GitHubActionsIntegration(BaseCICDIntegration):
                         {"name": "Checkout", "uses": "actions/checkout@v4"},
                         {"name": "Setup Python", "uses": "actions/setup-python@v4", 
                          "with": {"python-version": "3.11"}},
-                        {"name": "Install DevOps Buddy", "run": "pip install devops-buddy"},
+                        {"name": "Install DevOps Buddy", "run": "git clone https://github.com/brickjawn/DevOpsBuddy.git && cd DevOpsBuddy && pip install -e ."},
                         {"name": "Run scan", "run": "devops-buddy scan . --output results.json"},
                         {"name": "Upload results", "uses": "actions/upload-artifact@v4",
                          "with": {"name": "scan-results", "path": "results.json"}}

@@ -5,7 +5,7 @@ LABEL org.opencontainers.image.title="DevOps Buddy"
 LABEL org.opencontainers.image.description="Automated DevSecOps Security Scanner"
 LABEL org.opencontainers.image.version="1.0.0"
 LABEL org.opencontainers.image.authors="DevOps Buddy Team <security@devopsbuddy.com>"
-LABEL org.opencontainers.image.source="https://github.com/your-username/DevOpsBuddy"
+LABEL org.opencontainers.image.source="https://github.com/brickjawn/DevOpsBuddy"
 LABEL org.opencontainers.image.licenses="MIT"
 
 # Set environment variables

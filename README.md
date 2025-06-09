@@ -6,6 +6,8 @@
 
 **DevOps Buddy** is a comprehensive, production-ready DevSecOps security scanner that automates cloud misconfiguration detection, vulnerability assessment, SBOM generation, and compliance reporting. Built for modern cloud-native applications with seamless CI/CD integration.
 
+> ⚠️ **Note**: This package is currently in development and not yet published to PyPI. Installation must be done from source code.
+
 ## 🌟 Features
 
 ### Core Security Scanning
@@ -32,13 +34,20 @@
 
 ### Installation
 
-```bash
-# Using pip (recommended)
-pip install devops-buddy
+> 📖 **Detailed Installation Guide**: See [INSTALL.md](INSTALL.md) for complete installation instructions and troubleshooting.
 
-# From source
-git clone https://github.com/your-username/DevOpsBuddy.git
+```bash
+# Clone from source (required - not published to pip yet)
+git clone https://github.com/brickjawn/DevOpsBuddy.git
 cd DevOpsBuddy
+
+# Create and activate virtual environment (recommended)
+python -m venv devops_buddy_env
+source devops_buddy_env/bin/activate  # Linux/macOS
+# or
+devops_buddy_env\Scripts\activate     # Windows
+
+# Install in development mode
 pip install -e .
 
 # With development dependencies
@@ -339,7 +348,7 @@ DevOps Buddy generates SARIF 2.1.0 compatible reports for integration with GitHu
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/DevOpsBuddy.git
+git clone https://github.com/brickjawn/DevOpsBuddy.git
 cd DevOpsBuddy
 
 # Create virtual environment
@@ -412,8 +421,11 @@ jobs:
       with:
         python-version: '3.11'
     
-    - name: Install DevOps Buddy
-      run: pip install devops-buddy
+          - name: Install DevOps Buddy
+        run: |
+          git clone https://github.com/brickjawn/DevOpsBuddy.git
+        cd DevOpsBuddy
+        pip install -e .
     
     - name: Run Security Scan
       run: devops-buddy scan --format sarif --output security-results.sarif
@@ -452,7 +464,9 @@ security-scan:
   stage: security
   image: python:3.11
   before_script:
-    - pip install devops-buddy
+    - git clone https://github.com/brickjawn/DevOpsBuddy.git
+    - cd DevOpsBuddy
+    - pip install -e .
   script:
     - devops-buddy scan --format json --output security-results.json
     - devops-buddy scan --format sarif --output security-results.sarif
@@ -470,7 +484,9 @@ compliance-check:
   stage: compliance
   image: python:3.11
   before_script:
-    - pip install devops-buddy
+    - git clone https://github.com/brickjawn/DevOpsBuddy.git
+    - cd DevOpsBuddy
+    - pip install -e .
   script:
     - devops-buddy compliance --framework gdpr,hipaa --output compliance-report.html
   artifacts:
@@ -563,9 +579,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Support
 
-- **Documentation**: [GitHub Wiki](https://github.com/your-username/DevOpsBuddy/wiki)
-- **Issues**: [GitHub Issues](https://github.com/your-username/DevOpsBuddy/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/your-username/DevOpsBuddy/discussions)
+- **Documentation**: [GitHub Wiki](https://github.com/brickjawn/DevOpsBuddy/wiki)
+- **Issues**: [GitHub Issues](https://github.com/brickjawn/DevOpsBuddy/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/brickjawn/DevOpsBuddy/discussions)
 - **Email**: security@devopsbuddy.com
 
 ## 🔄 Changelog

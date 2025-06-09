@@ -46,7 +46,7 @@ Thank you for your interest in contributing to DevOps Buddy! This document provi
 
 ```bash
 # Clone your fork
-git clone https://github.com/YOUR-USERNAME/DevOpsBuddy.git
+git clone https://github.com/brickjawn/DevOpsBuddy.git
 cd DevOpsBuddy
 
 # Create virtual environment
