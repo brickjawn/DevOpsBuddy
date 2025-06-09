@@ -1,0 +1,176 @@
+# DevOps Buddy Configuration Example
+# Copy this file to devops-buddy.yaml and customize as needed
+
+# Cloud Provider Credentials
+# Note: Environment variables are preferred for production
+aws:
+  access_key_id: "${AWS_ACCESS_KEY_ID}"
+  secret_access_key: "${AWS_SECRET_ACCESS_KEY}"
+  region: "us-east-1"
+  # Optional: specific profile to use
+  # profile: "production"
+
+azure:
+  subscription_id: "${AZURE_SUBSCRIPTION_ID}"
+  tenant_id: "${AZURE_TENANT_ID}"
+  # Optional: use managed identity
+  # use_managed_identity: true
+
+gcp:
+  project_id: "${GCP_PROJECT_ID}"
+  credentials_path: "${GOOGLE_APPLICATION_CREDENTIALS}"
+  # Optional: specific region
+  # region: "us-central1"
+
+# Scanning Configuration
+scanning:
+  # Types of scans to perform
+  target_types:
+    - cloud_resources      # AWS, Azure, GCP misconfigurations
+    - containers          # Docker and container images
+    - dependencies        # Package vulnerabilities
+    - iac_templates       # Terraform, CloudFormation, etc.
+    - kubernetes          # K8s cluster and workload security
+  
+  # Severity threshold for reporting
+  severity_threshold: "medium"  # low, medium, high, critical
+  
+  # Maximum number of findings to report
+  max_findings: 1000
+  
+  # Number of parallel scans
+  parallel_scans: 4
+  
+  # Timeout for individual scans (seconds)
+  scan_timeout: 300
+  
+  # Include low-severity findings
+  include_low_severity: false
+  
+  # Skip certain file patterns
+  exclude_patterns:
+    - "*.test.*"
+    - "test/**"
+    - "tests/**"
+    - "node_modules/**"
+    - ".git/**"
+
+# Compliance Frameworks
+compliance:
+  frameworks:
+    - gdpr
+    - hipaa
+    - pci_dss
+    - soc2
+  
+  # Auto-generate compliance reports
+  generate_reports: true
+  
+  # Enable automated remediation (use with caution)
+  auto_remediate: false
+  
+  # Custom compliance rules directory
+  # custom_rules_path: "/path/to/custom/rules"
+
+# Reporting Configuration
+reporting:
+  # Output formats to generate
+  formats:
+    - json    # Machine-readable format
+    - html    # Human-readable reports
+    - sarif   # Static Analysis Results Interchange Format
+    # - pdf   # PDF reports (requires additional dependencies)
+  
+  # Output directory for reports
+  output_directory: "./reports"
+  
+  # Include raw scan data in reports
+  include_raw_data: false
+  
+  # Include remediation suggestions
+  include_remediation: true
+  
+  # Template customization
+  # custom_templates_path: "/path/to/templates"
+
+# CI/CD Integration
+cicd:
+  # Fail build on high severity findings
+  fail_on_high_severity: true
+  
+  # Fail build on critical severity findings
+  fail_on_critical_severity: true
+  
+  # Upload artifacts to CI/CD system
+  upload_artifacts: true
+  
+  # Maximum execution time (seconds)
+  max_execution_time: 600
+  
+  # Notifications
+  notifications:
+    # Slack webhook URL for notifications
+    slack_webhook: "${SLACK_WEBHOOK_URL}"
+    
+    # Email notifications (if SMTP is configured)
+    # email:
+    #   enabled: false
+    #   recipients: ["security@company.com"]
+    #   smtp_server: "smtp.company.com"
+    #   smtp_port: 587
+
+# Logging Configuration
+logging:
+  # Log level: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  level: "INFO"
+  
+  # Log format
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  
+  # Log to file
+  file_logging:
+    enabled: false
+    path: "./logs/devops-buddy.log"
+    max_size: "10MB"
+    backup_count: 5
+
+# Plugin Configuration
+plugins:
+  # Custom scanner plugins
+  scanners:
+    # Example custom scanner
+    # - name: "custom-scanner"
+    #   path: "/path/to/custom/scanner.py"
+    #   enabled: true
+  
+  # Custom report generators
+  reporters:
+    # Example custom reporter
+    # - name: "custom-reporter"
+    #   path: "/path/to/custom/reporter.py"
+    #   enabled: true
+
+# Advanced Settings
+advanced:
+  # Enable experimental features
+  experimental_features: false
+  
+  # Cache scan results (improves performance)
+  cache_enabled: true
+  cache_ttl: 3600  # seconds
+  
+  # Resource limits
+  memory_limit: "2GB"
+  cpu_limit: 4
+  
+  # Network configuration
+  proxy:
+    # HTTP proxy for outbound requests
+    # http_proxy: "http://proxy.company.com:8080"
+    # https_proxy: "https://proxy.company.com:8080"
+    # no_proxy: "localhost,127.0.0.1,.company.com"
+  
+  # Custom vulnerability database
+  # vulnerability_db:
+  #   url: "https://custom-vuln-db.company.com"
+  #   api_key: "${VULN_DB_API_KEY}" 

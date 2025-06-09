@@ -1,0 +1,90 @@
+version: '3.8'
+
+services:
+  devops-buddy:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: devops-buddy:latest
+    container_name: devops-buddy-scanner
+    environment:
+      # Configure logging
+      - DEVOPS_BUDDY_LOG_LEVEL=INFO
+      - DEVOPS_BUDDY_OUTPUT_DIR=/app/reports
+      
+      # Cloud credentials (set these in .env file)
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID:-}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY:-}
+      - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION:-us-east-1}
+      - AZURE_SUBSCRIPTION_ID=${AZURE_SUBSCRIPTION_ID:-}
+      - AZURE_TENANT_ID=${AZURE_TENANT_ID:-}
+      - GCP_PROJECT_ID=${GCP_PROJECT_ID:-}
+      - GOOGLE_APPLICATION_CREDENTIALS=${GOOGLE_APPLICATION_CREDENTIALS:-}
+    volumes:
+      # Mount project directory for scanning
+      - ./sample_project:/workspace:ro
+      # Mount reports directory
+      - ./reports:/app/reports
+      # Mount config directory
+      - ./configs:/app/configs:ro
+      # Mount cloud credentials (if using files)
+      - ~/.aws:/home/scanner/.aws:ro
+      - ~/.config/gcloud:/home/scanner/.config/gcloud:ro
+    working_dir: /workspace
+    command: ["scan", "--target", "/workspace", "--format", "json", "--output", "/app/reports/scan-results.json"]
+    restart: "no"
+
+  # Development service with source code mounted
+  devops-buddy-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: devops-buddy:dev
+    container_name: devops-buddy-dev
+    environment:
+      - DEVOPS_BUDDY_LOG_LEVEL=DEBUG
+      - DEVOPS_BUDDY_OUTPUT_DIR=/app/reports
+    volumes:
+      # Mount source code for development
+      - .:/app
+      - ./reports:/app/reports
+    working_dir: /app
+    command: ["--help"]
+    restart: "no"
+    profiles:
+      - dev
+
+  # Example service for CI/CD integration testing
+  devops-buddy-ci:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: devops-buddy:ci
+    container_name: devops-buddy-ci
+    environment:
+      - DEVOPS_BUDDY_LOG_LEVEL=INFO
+      - CI=true
+    volumes:
+      - ./sample_project:/workspace:ro
+      - ./reports:/app/reports
+    working_dir: /workspace
+    command: [
+      "scan", 
+      "--target", "/workspace",
+      "--format", "sarif",
+      "--output", "/app/reports/security-results.sarif",
+      "--fail-on", "high"
+    ]
+    restart: "no"
+    profiles:
+      - ci
+
+volumes:
+  reports:
+    driver: local
+  configs:
+    driver: local
+
+networks:
+  default:
+    name: devops-buddy-network 

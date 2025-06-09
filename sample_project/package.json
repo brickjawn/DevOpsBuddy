@@ -1,0 +1,21 @@
+{
+  "name": "sample-web-app",
+  "version": "1.0.0",
+  "description": "Sample application for DevOps Buddy testing",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "jest"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "lodash": "4.17.15",
+    "axios": "^1.4.0"
+  },
+  "devDependencies": {
+    "jest": "^29.5.0"
+  },
+  "keywords": ["demo", "security", "testing"],
+  "author": "DevOps Buddy",
+  "license": "MIT"
+} 
